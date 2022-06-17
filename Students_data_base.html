@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Стилизованная таблица</title>
+
+</head>
+<body>
+<h3>Таблица студентов</h3>
+<input type="text" id="Name" placeholder="Имя">
+<input type="date" id="Birthday" placeholder="Дата рождения">
+<select name="Sex" id="Sex" placeholder="Пол">
+<option value="мужчина">мужчина</option>
+<option value="женщина">женщина</option>
+</select>
+
+<button onclick="addElement()">Добавить</button>
+
+<div class="wrapper">
+<form action="">
+<div class="table_wrap">
+<table class="students-tab" id="studentsTab">
+<thead>
+
+            <tr>
+                <td class="students-tab-col1">Имя студента</td>
+                <td class="students-tab-col2">Пол</td>
+                <td class="students-tab-col3">Дата рождения</td>
+                <td class="students-tab-col4">Возраст</td>
+            </tr>
+
+</thead>
+<tbody>
+<tr>
+
+            </tr>
+</tbody>
+<tfoot>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+            </tr> <tr>
+                <td colspan="3">Средний возраст студентов</td>
+                <td id="averageAge"></td>
+            </tr>
+        </tfoot>
+</table>
+</div>
+</div>
+
+<script>
+
+window.onload = function(){tab = document.getElementById("studentsTab");}
+
+function addElement() {
+
+    var newTR = document.createElement("tr");
+    var curRow = document.getElementById("studentsTab").appendChild(newTR);
+
+    var newTD = document.createElement("td");
+    var myText = document.getElementById("Name").value;
+    myText==""?newTD.textContent = "no info ":newTD.textContent = myText;
+    curRow.appendChild(newTD);
+
+    newTD = document.createElement("td");
+    myText = document.getElementById("Sex").value;
+    myText==""?newTD.textContent = "no info ":newTD.textContent = myText;
+    curRow.appendChild(newTD);
+
+    newTD = document.createElement("td");
+    myText = document.getElementById("Birthday").value;
+    myText==""?newTD.textContent = "no info ":newTD.textContent = myText;
+    curRow.appendChild(newTD);
+
+    newTD = document.createElement("td");
+    var now = new Date();
+    var currentYear = now.getFullYear();
+    var currentMonth = now.getMonth();
+    var currentDay = now.getDate();
+    myText = document.getElementById("Birthday").value;
+    var birthYear = myText.substring(0, 4);
+    var birthMonth = myText.substring(5, 7);
+    var birthDay = myText.substring(8, 10);
+    var age = currentYear - birthYear;
+    if ((currentMonth + 1) < birthMonth) {
+       age -= 1;
+}
+    if ((currentMonth + 1) == birthMonth) {
+       if (currentDay < birthDay) {
+       age -= 1;
+}
+}
+    myText==""?newTD.textContent = "no info ":newTD.textContent = age;
+    curRow.appendChild(newTD);
+
+    var table = document.getElementById("studentsTab");
+    var rowsLength = table.rows.length - 4;
+    var sum=0;
+    var buf;
+    var array = new Array(rowsLength);
+    var average;
+    for (var i = 0; i < rowsLength; i++) {
+        buf = table.rows[i+2].cells[3].innerText;
+        array[i] = Number(buf);
+}
+    for (var j = 0; j < array.length; j++) {
+        sum += array[j];
+}
+    var average = sum/rowsLength;
+    document.getElementById("averageAge").innerHTML = average;
+}
+
+</script>
+<style>
+h3 {
+            color: steelblue;
+        }
+
+        .students-tab {
+            border: 1px solid steelblue;
+            width: 650px;
+            border-collapse: collapse;
+            margin-bottom: 300px;
+        }
+
+        .students-tab tr td {
+            border: 1px solid steelblue;
+        }
+
+        .students-tab-col1 {
+            width: 300px;
+        }
+
+        .students-tab-col2 {
+            width: 120px;
+        }
+
+        .students-tab-col3 {
+            width: 150px;
+        }
+
+        .students-tab-col4 {
+            width: 80px;
+        }
+</slyle>
+
+
+</body>
+</html>
